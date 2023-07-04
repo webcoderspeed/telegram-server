@@ -36,3 +36,4 @@ migrations/
 # Ignore any other temporary or build files specific to your project
 
 # Ignore sensitive or
+my-session.session
