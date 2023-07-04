@@ -1,0 +1,38 @@
+# Ignore Python virtual environment files
+venv/
+env/
+
+# Ignore generated files
+__pycache__/
+*.pyc
+
+# Ignore the local development database file (if applicable)
+database.db
+
+# Ignore logs and other generated files
+logs/
+*.log
+
+# Ignore the generated documentation
+docs/
+
+# Ignore the generated coverage reports
+.coverage/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore local configuration files
+*.ini
+*.env
+
+# Ignore the FastAPI generated OpenAPI documentation
+openapi.json
+
+# Ignore the FastAPI generated asyncpg migrations
+migrations/
+
+# Ignore any other temporary or build files specific to your project
+
+# Ignore sensitive or
