@@ -46,7 +46,7 @@ async def health_check():
 
 
 @router.post("/send-message")
-async def send_message(data: dict = Depends(validate_send_message)):
+async def send_message(data: dict = Body(...)):
     phone = data.get("phone")
     message = data.get("message")
     await telegram_logics.send_message(phone, message)
@@ -54,7 +54,19 @@ async def send_message(data: dict = Depends(validate_send_message)):
 
 @router.post("/get-entity-info")
 async def get_entity_info(data: dict = Body(...)):
-    entity_url = data.get("entity_url")
-    entity_info = await telegram_logics.get_entity_info(entity_url)
-    entity_info_json = json.dumps(entity_info, ensure_ascii=False).encode("utf-8-sig").decode()
-    return {"entity_info": entity_info_json}
+    try:
+        entity_url = data.get("entity_url")
+        entity_info = await telegram_logics.get_entity_info(entity_url)
+        entity_info_json = json.dumps(entity_info, ensure_ascii=False).encode("utf-8-sig").decode()
+        return {"entity_info": entity_info_json}
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return {"error": str(e)}
+
+@router.post("/create-invite-link")
+async def create_invite_link(data: dict = Body(...)):
+    group_link = data.get("group_link")
+    expire_date = data.get("expire_date")
+    usage_limit = data.get("usage_limit")
+    invite_link = await telegram_logics.create_invite_link(group_link, expire_date, usage_limit)
+    return {"invite_link": invite_link.link}
