@@ -49,8 +49,9 @@ async def health_check():
 async def send_message(data: dict = Body(...)):
     phone = data.get("phone")
     message = data.get("message")
-    await telegram_logics.send_message(phone, message)
-    return {"message": "Message sent"}
+    result = await telegram_logics.send_message(phone, message)
+    response_json = json.dumps(result)
+    return {"result": response_json}
 
 @router.post("/get-entity-info")
 async def get_entity_info(data: dict = Body(...)):
