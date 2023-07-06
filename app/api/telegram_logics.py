@@ -22,7 +22,6 @@ class TelegramLogics:
 
     async def get_entity_info(self, entity_url: str):
         entity = await self.client.get_entity(entity_url)
-        
         if isinstance(entity, types.User):
             entity_dict = {
                 "id": entity.id,
@@ -32,11 +31,20 @@ class TelegramLogics:
             }
         elif isinstance(entity, types.Chat):
             entity_dict = {
+                "id": entity.id,
                 "title": entity.title
+            }
+        elif isinstance(entity, types.Channel):
+            entity_dict = {
+                "id": entity.id,
+                "title": entity.title,
+            }
+        elif isinstance(entity, types.Group):
+            entity_dict = {
+                "id": entity.id,
+                "title": entity.title,
             }
         else:
             raise ValueError("Unsupported entity type")
 
         return entity_dict
-    
-    
