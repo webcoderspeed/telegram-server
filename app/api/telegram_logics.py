@@ -67,7 +67,6 @@ class TelegramLogics:
 
     async def get_entity_info(self, entity_url: str):
         entity = await self.client.get_entity(entity_url)
-        print(entity)
         if isinstance(entity, types.User):
             entity_dict = {
                 "id": entity.id,

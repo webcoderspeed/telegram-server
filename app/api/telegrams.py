@@ -58,7 +58,7 @@ async def get_entity_info(data: dict = Body(...)):
     try:
         entity_url = data.get("entity_url")
         entity_info = await telegram_logics.get_entity_info(entity_url)
-        entity_info_json = json.dumps(entity_info, ensure_ascii=False).encode("utf-8-sig").decode()
+        entity_info_json = json.dumps(entity_info)
         return {"entity_info": entity_info_json}
     except Exception as e:
         print(f"An error occurred: {str(e)}")
