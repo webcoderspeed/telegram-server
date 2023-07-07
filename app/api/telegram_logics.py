@@ -14,7 +14,8 @@ def get_peer_type(result):
             'message': result.message,
             'out': result.out,
             'mentioned': result.mentioned,
-            'media_unread': result.media_unread
+            'media_unread': result.media_unread,
+            'type': 'channel'
         }
     elif isinstance(result.peer_id, types.PeerChat):
         return {
@@ -26,7 +27,8 @@ def get_peer_type(result):
             'message': result.message,
             'out': result.out,
             'mentioned': result.mentioned,
-            'media_unread': result.media_unread
+            'media_unread': result.media_unread,
+            'type': 'chat'
         }
     elif isinstance(result.peer_id, types.PeerUser):
         return {
@@ -38,7 +40,8 @@ def get_peer_type(result):
             'message': result.message,
             'out': result.out,
             'mentioned': result.mentioned,
-            'media_unread': result.media_unread
+            'media_unread': result.media_unread,
+            'type': 'user'
         }
     else:
         return 'Unknown'
@@ -64,27 +67,33 @@ class TelegramLogics:
 
     async def get_entity_info(self, entity_url: str):
         entity = await self.client.get_entity(entity_url)
+        print(entity)
         if isinstance(entity, types.User):
             entity_dict = {
                 "id": entity.id,
                 "first_name": entity.first_name,
                 "last_name": entity.last_name,
                 "username": entity.username,
+                "phone":entity.phone,
+                "type": 'user'
             }
         elif isinstance(entity, types.Chat):
             entity_dict = {
                 "id": entity.id,
-                "title": entity.title
+                "title": entity.title,
+                'type': 'chat'
             }
         elif isinstance(entity, types.Channel):
             entity_dict = {
                 "id": entity.id,
                 "title": entity.title,
+                'type': 'channel'
             }
         elif isinstance(entity, types.Group):
             entity_dict = {
                 "id": entity.id,
                 "title": entity.title,
+                'type': 'group'
             }
         else:
             raise ValueError("Unsupported entity type")
