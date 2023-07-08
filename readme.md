@@ -11,9 +11,9 @@ uvicorn app.main:app --reload
 ```
   sudo service docker start
 
-  docker build -t my-fastapi-server .
+  docker build -t telegram-server .
 
-  docker run -p 8000:8000 my-fastapi-server
+  docker run -p 8000:8000 telegram-server
 
 
 ```
