@@ -1,5 +1,5 @@
 fastapi
 uvicorn
-pydantic===1.8
+pydantic
 configparser
 telethon
