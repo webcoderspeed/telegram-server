@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.telegrams import router as telegram_router
+from app.api.telegram import router as telegram_router
 
 app = FastAPI()
 

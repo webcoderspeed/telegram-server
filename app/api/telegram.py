@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Body, Depends
-from telethon.sync import TelegramClient, events
+from fastapi import APIRouter, Body
+from telethon.sync import TelegramClient
 from configparser import ConfigParser
 from app.api.telegram_logics import TelegramLogics
-from app.api.validators import validate_send_message
 import json
-from fastapi.encoders import jsonable_encoder
+from telethon.errors import SessionPasswordNeededError
 
 router = APIRouter()
 config = ConfigParser()
@@ -14,6 +13,7 @@ api_id = config.getint("Telegram", "api_id")
 api_hash = config.get("Telegram", "api_hash")
 session_name = config.get("Telegram", "session_name")
 phone = config.get("Telegram", "phone")
+password = config.get("Telegram", "password")
 
 # Initialize the Telegram client
 client = TelegramClient(session_name, api_id, api_hash)
@@ -26,8 +26,11 @@ async def startup_event():
     global client
     await client.connect()
     if not await client.is_user_authorized():
-        await client.send_code_request(phone)
-        await client.sign_in(phone, input('Enter the code: '))
+        try:
+            await client.send_code_request(phone)
+            await client.sign_in(phone, input('Enter the code: '))
+        except SessionPasswordNeededError:
+            await client.sign_in(password=password)
 
         # Print the logged-in user details
         me = await client.get_me()
